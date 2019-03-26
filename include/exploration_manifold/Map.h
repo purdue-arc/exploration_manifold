@@ -18,6 +18,7 @@ public:
 
 private:
   struct HalfEdge originEdge;
+  unsigned int numQuads;
 
 
 };
