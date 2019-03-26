@@ -10,48 +10,60 @@ namespace purdue_arc
 
   Map::~Map() = delete();
 
-  std::pair<double[3], int[4]> Map::GeneratePatch();
+  std::pair<std::array<double[3]>, std::array<size_t[4]>> Map::GeneratePatch()
   {
-    // Output data, array of points and faces
-    std::vector<double[3]> vertices;
-    std::vector<unsigned int[4]> quads;
+    // Queue of discovered edges to visit
+    std::queue<struct HalfEdge *> edgeQueue;
 
-    // Queue and list to track progress
-    std::queue<struct HalfEdge> edgeQueue;
-    std::unordered_set<Quad> visitedQuads;
+    // Set of quads keys that we have visited or have queued
+    std::unordered_set<size_t> visitedQuads;
 
-    // Start off with originEdge and quad
-    edgeQueue.push(originEdge);
-    visitedQuads.insert(originEdge.parentQuad);
+    // Vector of quad's vertices' keys that we have visited
+    std::vector<size_t[4]> quadCornerVector;
+    
+    // map of vertices we have visited and pointer to vertex struct
+    std::unordered_map<size_t, struct Vertex *> vertexMap;
+
+    // Start off with originEdge and its parent
+    edgeQueue.push(&originEdge);
+    visitedQuads.insert(originEdge.parentQuad.key);
 
     while(edgeQueue.size() > 0)
     {
-      // For the next edge in queue:
-      // Add parent quad and points to array
-      // Visit all neighbors' twins, and
-      // Add to queue if not in set of visited quads
-      // Then add parent quad of twin to set
       struct HalfEdge currentEdge = edgeQueue.pop();
-      size_t[4] currentVertices;
+      size_t[4] currentCorners;
 
       // Travel around the current quad
-      for (size_t vertex = 0; vertex < 4; vertex++)
+      for (size_t jumps = 0; jumps < 4; jumps++)
       {
-        // Add vertex to list if needed
-        // This is really wasteful to add the point again if it already exists, but . . .
-        vertices.push_back(currentEdge.baseVertex);
-        currentVertices[vertex] = vertices.size() - 1;
+        // The base vertex of the current half-edge
+        struct Vertex currentVertex = currentEdge.baseVertex;
 
+        // Add vertex to list of vertices if needed
+        vertices.insert(std::pair<size_t, struct Vertex *>(currentVertex.key, &currentVertex))
+
+        // Add vertex's key to list of quad's vertices' keys
+        currentCorners[jumps] = currentVertex.key;
+
+        // Check if we have visited the twin
         struct HalfEdge currentTwin = currentEdge.twinEdge;
-        if(visitedQuads.find(currentTwin.parentQuad) ~= visitedQuads.end())
+        if(visitedQuads.find(currentTwin.parentQuad.key) ~= visitedQuads.end())
         {
           // This quad has not been visited
-          visitedQuads.insert(currentTwin.parentQuad);
-          edgeQueue.push(currentTwin);
+          visitedQuads.insert(currentTwin.parentQuad.key);
+          edgeQueue.push(&currentTwin);
         }
+
         // Move to next half-edge
         currentEdge = currentEdge.nextEdge;
       }
+
+      // Add vertex data for quad to vector
+      quadCornerVector.insert(currentCorners);
     }
+
+    // queue is empty, meaning we have visited all half edges, quads, and vertices
+    //quadCornerVector
+    //vertexMap
   }
 }
