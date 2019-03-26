@@ -8,13 +8,13 @@ namespace purdue_arc
     numQuads = 0;
   }
 
-  Map::~Map() = delete()
+  Map::~Map() = delete();
 
-  doublestd::pair<double[3], int[4]> Map::GeneratePatch();
+  std::pair<double[3], int[4]> Map::GeneratePatch();
   {
     // Output data, array of points and faces
     std::vector<double[3]> vertices;
-    std::vector<size_t[4]> quads;
+    std::vector<unsigned int[4]> quads;
 
     // Queue and list to track progress
     std::queue<struct HalfEdge> edgeQueue;
