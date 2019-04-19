@@ -1,4 +1,4 @@
-#include "exploration_manifold/Quad.h"
+#include "exploration_manifold/Map.h"
 
 Map::Map()
 {
@@ -89,5 +89,9 @@ std::pair<std::array<double[3]>, std::array<size_t[4]>> Map::GeneratePatch()
 }
 
 iterator Map::begin(){
-  return iterator(*originEdge);
+  return iterator(firstEdge);
+}
+
+iterator Map::end(){
+  return iterator(lastEdge);
 }

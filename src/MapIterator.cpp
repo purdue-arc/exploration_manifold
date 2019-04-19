@@ -29,6 +29,22 @@ MapIteratore MapIterator::operator--(int){
   return clone;
 }
 
-Map.mapHalfEdge & MapIterator::operator*(){
-  return *edge;
+const Map.mapHalfEdge & MapIterator::operator*(){
+  return const *edge;
 }
+
+
+// MapIterator & next();
+// MapIterator & next(int steps);
+// MapIterator & previous();
+// MapIterator & previous(int steps);
+//
+// bool hasTwin();
+// MapIterator & twin();
+//
+// double [3] vector();
+//
+// double [3] normal();
+// double normalAngle();
+// double variance();
+// double certainty();
