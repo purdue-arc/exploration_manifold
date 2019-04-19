@@ -1,9 +1,9 @@
-include "exploration_manifold/Quad.h"
+#include "exploration_manifold/Quad.h"
 
 Map::Map()
 {
   numQuads = 0;
-  originEdgePt = NULL
+  originEdge = NULL
 }
 
 Map::~Map() = default;
@@ -86,4 +86,8 @@ std::pair<std::array<double[3]>, std::array<size_t[4]>> Map::GeneratePatch()
 
   //quadCornerVector
   //vertexMap
+}
+
+iterator Map::begin(){
+  return iterator(*originEdge);
 }

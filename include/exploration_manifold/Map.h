@@ -1,15 +1,7 @@
+#include "exploration_manifold/MapIterator.h"
+
 class Map {
-  struct mapGeometry
-  {
-    size_t key;
-
-    bool operator<(meshGeometry other) const
-    {
-      return other.key < this.key;
-    }
-  };
-
-  struct mapHalfEdge : mapGeometry
+  struct mapHalfEdge
   {
     mapVertex * baseVertex;
     mapQuad * parentQuad;
@@ -18,15 +10,13 @@ class Map {
     mapHalfEdge * twinEdge;
     mapHalfEdge * nextEdge;
   };
-
-  struct mapVertex : mapGeometry
+  struct mapVertex
   {
     double position_x;
     double position_y;
     double position_z;
   };
-
-  struct mapQuad : mapGeometry
+  struct mapQuad
   {
     double normal_x;
     double normal_y;
@@ -36,10 +26,14 @@ class Map {
     double certainty;
   };
 public:
+    typedef MapIterator iterator;
     Map();
     ~Map();
 
-    std::pair<std::array<double[3]>, std::array<size_t[4]>> Map::GeneratePatch();
+    iterator begin();
+    //iterator end();
+
+    std::pair<std::array<double[3]>, std::array<size_t[4]>> GeneratePatch();
 
     // Add data, must be linked to existing stuff I guess.
     bool extendMap();
@@ -48,10 +42,7 @@ private:
   // Current half edges
   // fronteirs?
   // zeroEdge?
-
-
-
-  mapHalfEdge * originEdgePt;
+  Map.mapHalfEdge * originEdge;
   unsigned int numQuads;
 
 };
