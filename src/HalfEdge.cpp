@@ -1,51 +1,62 @@
 #include "exploration_manifold/HalfEdge.h"
 #include "exploration_manifold/HalfEdgeIterator.h"
 
-HalfEdge::HalfEdge(){
-
+HalfEdge::HalfEdge(Vertex base, Quad parent, HalfEdge prev, HalfEdge twin, HalfEdge next){
+  this->baseVertex = base;
+  this->parentQuad = parent;
+  this->prevEdge = prev;
+  this->twinEdge = twin;
+  this->nextEdge = next;
 }
 
 HalfEdge::~HalfEdge() = default;
 
+HalfEdge & HalfEdge::next(){
+  return *nextEdge;
+}
 
-// struct Vertex
-// {
-//   double position_x;
-//   double position_y;
-//   double position_z;
-// };
-// struct Quad
-// {
-//   // This can be calculated on the fly, but it will be used a lot, so pre-calculating it may be better
-//   double normalAngle_rad;
-//   double variance;
-//   double certainty;
-// };
-//
-// public:
-// HalfEdge(Vertex base, Quad parent, HalfEdge prev, HalfEdge twin, HalfEdge next);
-// ~HalfEdge();
-//
-// // Accessor Methods
-// HalfEdge & next();
-// HalfEdge & previous();
-// HalfEdge & twin();
-//
-// // Parent Accessor Methods
-// double parentNormalAngle();
-// double parentVariance();
-// double parentCertainty();
-//
-// // Other
-// bool hasTwin();
-// double [3] parentNormal();
-// double [3] vector();
-// HalfEdgeIterator parentIterator();
-//
-// private:
-// Vertex * baseVertex;
-// Quad * parentQuad;
-//
-// HalfEdge * prevEdge;
-// HalfEdge * twinEdge;
-// HalfEdge * nextEdge;
+HalfEdge & HalfEdge::previous(){
+  return *prevEdge;
+}
+
+HalfEdge & HalfEdge::twin(){
+  return *twinEdge;
+}
+
+double HalfEdge::parentNormalAngle(){
+  return parentQuad->normalAngle_rad;
+}
+
+double HalfEdge::parentVariance(){
+  return parentQuad->variance;
+}
+
+double HalfEdge::parentCertainty(){
+  return parentQuad->certainty;
+}
+
+bool HalfEdge::hasTwin(){
+  return twinEdge != nullptr;
+}
+
+std::array<double, 3> HalfEdge::parentNormal(){
+  const std::array<double, 3> & vector1 = this->vector();
+  const std::array<double, 3> & vector2 = nextEdge->vector();
+  std::array<double, 3> normalVector;
+  normalVector.at(1) = vector1.at(1) * vector2.at(2) - vector1.at(2) * vector2.at(1);
+  normalVector.at(2) = vector1.at(2) * vector2.at(0) - vector1.at(0) * vector2.at(2);
+  normalVector.at(3) = vector1.at(0) * vector2.at(1) - vector1.at(1) * vector2.at(0);
+  return normalVector;
+}
+
+std::array<double, 3> HalfEdge::vector(){
+  std::array<double, 3> edgeVector;
+  edgeVector.at(1) = nextEdge->baseVertex->position_x - baseVertex->position_x;
+  edgeVector.at(2) = nextEdge->baseVertex->position_y - baseVertex->position_y;
+  edgeVector.at(3) = nextEdge->baseVertex->position_z - baseVertex->position_z;
+  return edgeVector;
+}
+
+HalfEdgeIterator HalfEdge::parentIterator(){
+  return HalfEdgeIterator(*this);
+}

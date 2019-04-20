@@ -1,3 +1,5 @@
+#include <array>
+
 // Forward declare iterator
 class HalfEdgeIterator;
 
@@ -32,8 +34,8 @@ public:
 
   // Other
   bool hasTwin();
-  double [3] parentNormal();
-  double [3] vector();
+  std::array<double, 3> parentNormal();
+  std::array<double, 3> vector();
   HalfEdgeIterator parentIterator();
 
 private:

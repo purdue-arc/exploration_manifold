@@ -2,7 +2,7 @@
 
 class HalfEdgeIterator {
 public:
-  HalfEdgeIterator(HalfEdge edge);
+  HalfEdgeIterator(HalfEdge & edge);
   ~HalfEdgeIterator();
 
   // Standard operations
@@ -13,5 +13,5 @@ public:
   HalfEdge & operator*();
 
 private:
-  HalfEdge edge;
+  HalfEdge & edge;
 };

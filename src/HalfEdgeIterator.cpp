@@ -1,6 +1,6 @@
 #include "exploration_manifold/HalfEdgeIterator.h"
 
-HalfEdgeIterator::HalfEdgeIterator(HalfEdgeIterator edge){
+HalfEdgeIterator::HalfEdgeIterator(HalfEdge & edge){
   this->edge = edge;
 }
 
