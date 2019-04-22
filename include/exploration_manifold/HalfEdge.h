@@ -1,4 +1,5 @@
 #include <array>
+#include <shared_ptr>
 
 // Forward declare iterator
 class HalfEdgeIterator;
@@ -19,7 +20,7 @@ class HalfEdge{
   };
 
 public:
-  HalfEdge(Vertex base, Quad parent, HalfEdge prev, HalfEdge twin, HalfEdge next);
+  HalfEdge(shared_ptr<Vertex> base, shared_ptr<Quad> parent, shared_ptr<HalfEdge> prev, shared_ptr<HalfEdge> twin, shared_ptr<HalfEdge> next);
   ~HalfEdge();
 
   // Accessor Methods
@@ -36,13 +37,13 @@ public:
   bool hasTwin();
   std::array<double, 3> parentNormal();
   std::array<double, 3> vector();
-  HalfEdgeIterator parentIterator();
+  HalfEdgeIterator iterator();
 
 private:
-  Vertex * baseVertex;
-  Quad * parentQuad;
+  shared_ptr<Vertex> baseVertex;
+  shared_ptr<Quad> parentQuad;
 
-  HalfEdge * prevEdge;
-  HalfEdge * twinEdge;
-  HalfEdge * nextEdge;
+  shared_ptr<HalfEdge> prevEdge;
+  shared_ptr<HalfEdge> twinEdge;
+  shared_ptr<HalfEdge> nextEdge;
 };
