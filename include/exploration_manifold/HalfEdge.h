@@ -10,6 +10,12 @@ class HalfEdge{
     double position_x;
     double position_y;
     double position_z;
+    Vertex(double x, double y, double z)
+    {
+      position_x = x;
+      position_y = y;
+      position_z = z;
+    }
   };
   struct Quad
   {
@@ -17,6 +23,12 @@ class HalfEdge{
     double normalAngle_rad;
     double variance;
     double certainty;
+    Quad(double n, double v, double c)
+    {
+      normalAngle_rad = n;
+      variance = v;
+      certainty = c;
+    }
   };
 
 public:
