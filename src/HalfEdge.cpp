@@ -2,11 +2,11 @@
 #include "exploration_manifold/HalfEdgeIterator.h"
 
 HalfEdge::HalfEdge(shared_ptr<Vertex> base, shared_ptr<Quad> parent, shared_ptr<HalfEdge> prev, shared_ptr<HalfEdge> twin, shared_ptr<HalfEdge> next){
-  this->baseVertex = base;
-  this->parentQuad = parent;
-  this->prevEdge = prev;
-  this->twinEdge = twin;
-  this->nextEdge = next;
+  baseVertex = base;
+  parentQuad = parent;
+  prevEdge = prev;
+  twinEdge = twin;
+  nextEdge = next;
 }
 
 HalfEdge::~HalfEdge() = default;
@@ -21,6 +21,18 @@ HalfEdge & HalfEdge::previous(){
 
 HalfEdge & HalfEdge::twin(){
   return *twinEdge;
+}
+
+void HalfEdge::setNext(shared_ptr<HalfEdge> next){
+  nextEdge = next;
+}
+
+void HalfEdge::setPrevious(shared_ptr<HalfEdge> prev){
+  prevEdge = prev;
+}
+
+void HalfEdge::setTwin(shared_ptr<HalfEdge> twin){
+  twinEdge = twin;
 }
 
 double HalfEdge::parentNormalAngle(){
@@ -43,17 +55,17 @@ std::array<double, 3> HalfEdge::parentNormal(){
   const std::array<double, 3> & vector1 = this->vector();
   const std::array<double, 3> & vector2 = nextEdge->vector();
   std::array<double, 3> normalVector;
-  normalVector.at(0) = vector1.at(1) * vector2.at(2) - vector1.at(2) * vector2.at(1);
-  normalVector.at(1) = vector1.at(2) * vector2.at(0) - vector1.at(0) * vector2.at(2);
-  normalVector.at(2) = vector1.at(0) * vector2.at(1) - vector1.at(1) * vector2.at(0);
+  normalVector[0] = vector1[1] * vector2[2] - vector1[2] * vector2[1];
+  normalVector[1] = vector1[2] * vector2[0] - vector1[0] * vector2[2];
+  normalVector[2] = vector1[0] * vector2[1] - vector1[1] * vector2[0];
   return normalVector;
 }
 
 std::array<double, 3> HalfEdge::vector(){
   std::array<double, 3> edgeVector;
-  edgeVector.at(0) = nextEdge->baseVertex->position_x - baseVertex->position_x;
-  edgeVector.at(1) = nextEdge->baseVertex->position_y - baseVertex->position_y;
-  edgeVector.at(2) = nextEdge->baseVertex->position_z - baseVertex->position_z;
+  edgeVector[0] = nextEdge->baseVertex->position_x - baseVertex->position_x;
+  edgeVector[1] = nextEdge->baseVertex->position_y - baseVertex->position_y;
+  edgeVector[2] = nextEdge->baseVertex->position_z - baseVertex->position_z;
   return edgeVector;
 }
 

@@ -40,6 +40,11 @@ public:
   HalfEdge & previous();
   HalfEdge & twin();
 
+  // Mutoator Methods
+  void setNext(shared_ptr<HalfEdge> next);
+  void setPrevious(shared_ptr<HalfEdge> prev);
+  void setTwin(shared_ptr<HalfEdge> twin);
+
   // Parent Accessor Methods
   double parentNormalAngle();
   double parentVariance();
