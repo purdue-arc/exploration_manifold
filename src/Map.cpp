@@ -27,12 +27,12 @@ Map::Map(double v_x [3], double v_y [3])
       activeEdge = std::shared_ptr<HalfEdge> (new HalfEdge(pt3, quad, activeEdge, nullptr, nullptr));
 
       // Make a complete backwards link
-      (activeEdge->begin()-3)->setPrev(activeEdge);
+      (activeEdge->previous().previous().previous()).setPrevious(activeEdge);
 
       // Link them forwards
       HalfEdge::iterator itr = activeEdge->begin();
       do {
-        itr->setNext(*(itr->begin()-3));
+        itr->setNext(std::shared_ptr<HalfEdge> (&(itr->previous().previous().previous())));
         --itr;
       } while(itr != activeEdge->begin());
 
