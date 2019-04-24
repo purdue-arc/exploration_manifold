@@ -1,9 +1,5 @@
-#include "exploration_manifold/HalfEdgeIterator.h"
-
-#ifndef HALFEDGE_H
-#define HALFEDGE_H
+//#include "exploration_manifold/HalfEdgeIterator.h"
 #include "exploration_manifold/HalfEdge.h"
-#endif
 
 HalfEdgeIterator::HalfEdgeIterator(std::shared_ptr<HalfEdge> edge){
   this->edge = edge;
