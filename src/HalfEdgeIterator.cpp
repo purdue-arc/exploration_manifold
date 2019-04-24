@@ -32,3 +32,11 @@ HalfEdgeIterator HalfEdgeIterator::operator--(int){
 HalfEdge & HalfEdgeIterator::operator*(){
   return *edge;
 }
+
+HalfEdge * HalfEdgeIterator::operator->(){
+  return edge.get();
+}
+
+bool HalfEdgeIterator::operator!=(const HalfEdgeIterator & other){
+  return this->edge.get() != other.edge.get();
+}

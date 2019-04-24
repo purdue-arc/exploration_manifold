@@ -13,6 +13,8 @@ public:
   HalfEdgeIterator & operator--();
   HalfEdgeIterator operator--(int);
   HalfEdge & operator*();
+  HalfEdge * operator->();
+  bool operator!=(const HalfEdgeIterator & other);
 
 private:
   std::shared_ptr<HalfEdge> edge;
