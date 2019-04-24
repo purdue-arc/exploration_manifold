@@ -1,6 +1,5 @@
-#include "exploration_manifold/HalfEdgeMap.h"
-#include "exploration_manifold/MapIterator.h"
-#include <shared_ptr>
+#include "exploration_manifold/HalfEdge.h"
+#include <memory>
 
 class Map {
 public:

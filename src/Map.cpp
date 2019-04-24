@@ -27,14 +27,14 @@ Map::Map(double v_x [3], double v_y [3])
       activeEdge = new HalfEdge(pt3, quad, activeEdge, nullptr, nullptr);
 
       // Make a complete backwards link
-      (activeEdge->iterator()-3)->setPrev(activeEdge);
+      (activeEdge->begin()-3)->setPrev(activeEdge);
 
       // Link them forwards
-      HalfEdgeIterator itr = activeEdge.iterator();
+      HalfEdge::iterator itr = activeEdge.begin();
       do {
-        itr->setNext(*(itr->iterator()-3));
+        itr->setNext(*(itr->begin()-3));
         --itr;
-      } while({itr != activeEdge.iterator()});
+      } while({itr != activeEdge.begin()});
 
       // Create an active edge for the next loop to use
   //   }

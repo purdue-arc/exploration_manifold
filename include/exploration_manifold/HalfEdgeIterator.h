@@ -1,4 +1,5 @@
-#include "exploration_manifold/HalfEdge.h"
+// forward declare the HalfEdge class
+class HalfEdge;
 
 class HalfEdgeIterator {
 public:
