@@ -3,6 +3,7 @@
 #include <memory>
 
 class HalfEdge{
+public:
   struct Vertex
   {
     double position_x;
@@ -29,7 +30,6 @@ class HalfEdge{
     }
   };
 
-public:
   typedef HalfEdgeIterator iterator;
   HalfEdge(std::shared_ptr<Vertex> base, std::shared_ptr<Quad> parent, std::shared_ptr<HalfEdge> prev, std::shared_ptr<HalfEdge> twin, std::shared_ptr<HalfEdge> next);
   ~HalfEdge();

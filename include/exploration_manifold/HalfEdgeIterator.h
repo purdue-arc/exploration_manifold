@@ -1,9 +1,10 @@
+#include <memory>
 // forward declare the HalfEdge class
 class HalfEdge;
 
 class HalfEdgeIterator {
 public:
-  HalfEdgeIterator(HalfEdge & edge);
+  HalfEdgeIterator(std::shared_ptr<HalfEdge> edge);
   ~HalfEdgeIterator();
 
   // Standard operations
@@ -14,5 +15,5 @@ public:
   HalfEdge & operator*();
 
 private:
-  HalfEdge & edge;
+  std::shared_ptr<HalfEdge> edge;
 };

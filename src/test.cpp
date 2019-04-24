@@ -1,4 +1,3 @@
-#include "exploration_manifold/HalfEdge.h"
 #include "exploration_manifold/Map.h"
 
 int main(){

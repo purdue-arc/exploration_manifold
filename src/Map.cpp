@@ -5,26 +5,26 @@ Map::Map(double v_x [3], double v_y [3])
 {
   numQuads = 0;
 
-  std::shared_ptr<HalfEdge.Vertex> originVertex = new HalfEdge.Vertex(0.0, 0.0, 0.0);
+  std::shared_ptr<HalfEdge::Vertex> originVertex (new HalfEdge::Vertex(0.0, 0.0, 0.0));
 
   const double normalAngle_rad = acos(v_x[0] * v_y[1] - v_x[1] * v_y[0]);
-  HalfEdge.Quad quad = new HalfEdge.Quad(normalAngle_rad, 0.0, 1.0);
+  std::shared_ptr<HalfEdge::Quad> quad (new HalfEdge::Quad(normalAngle_rad, 0.0, 1.0));
 
-  originEdge = new HalfEdge(originVertex, quad, nullptr, nullptr, nullptr);
+  originEdge (&(new HalfEdge(originVertex, quad, nullptr, nullptr, nullptr)));
   activeEdge = originEdge;
 
   // for(int8_t x_dir = -1; x_dir < 2; x_dir += 2)
   // {
   //   for(int8_t y_dir = -1; y_dir < 2; y_dir += 2)
   //   {
-      std::shared_ptr<HalfEdge.Vertex> pt1 = new HalfEdge.Vertex(v_x[0], v_x[1], v_x[2]);
-      std::shared_ptr<HalfEdge.Vertex> pt2 = new HalfEdge.Vertex(v_x[0], v_y[1], v_x[2] + v_y[2]);
-      std::shared_ptr<HalfEdge.Vertex> pt3 = new HalfEdge.Vertex(v_y[0], v_y[1], v_y[2]);
+      std::shared_ptr<HalfEdge::Vertex> pt1 (new HalfEdge::Vertex(v_x[0], v_x[1], v_x[2]));
+      std::shared_ptr<HalfEdge::Vertex> pt2 (new HalfEdge::Vertex(v_x[0], v_y[1], v_x[2] + v_y[2]));
+      std::shared_ptr<HalfEdge::Vertex> pt3 (new HalfEdge::Vertex(v_y[0], v_y[1], v_y[2]));
 
       // loop around the quad, keeping a link to the last one.
-      activeEdge = new HalfEdge(pt1, quad, activeEdge, nullptr, nullptr);
-      activeEdge = new HalfEdge(pt2, quad, activeEdge, nullptr, nullptr);
-      activeEdge = new HalfEdge(pt3, quad, activeEdge, nullptr, nullptr);
+      activeEdge (&(new HalfEdge(pt1, quad, activeEdge, nullptr, nullptr)));
+      activeEdge (&(new HalfEdge(pt2, quad, activeEdge, nullptr, nullptr)));
+      activeEdge (&(new HalfEdge(pt3, quad, activeEdge, nullptr, nullptr)));
 
       // Make a complete backwards link
       (activeEdge->begin()-3)->setPrev(activeEdge);
