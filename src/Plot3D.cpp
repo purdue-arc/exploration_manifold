@@ -1,4 +1,5 @@
 #include "exploration_manifold/Plot3D.h"
+#include <sstream>
 
 Plot3D::Plot3D()
 {
@@ -18,12 +19,12 @@ Plot3D::~Plot3D() = default;
 
 void Plot3D::addPolygon(Polygon poly){
   numObjects++;
-  plot << "set object " << numObjects << " polygon from '-' to '-' to '-' to '-' to '-' fillsytle transparent solid 0.5\n";
-  plot.send1d(poly.vertex_1);
-  plot.send1d(poly.vertex_2);
-  plot.send1d(poly.vertex_3);
-  plot.send1d(poly.vertex_4);
-  plot.send1d(poly.vertex_1);
+  plot << "set object " << numObjects << " polygon from "
+    << formatVertex(poly.vertex_1) << " to "
+    << formatVertex(poly.vertex_2) << " to "
+    << formatVertex(poly.vertex_3) << " to "
+    << formatVertex(poly.vertex_4) << " to "
+    << formatVertex(poly.vertex_1) << " fillstyle transparent solid 0.5\n";
 
   if( updateRanges(poly.vertex_1) || updateRanges(poly.vertex_2) || updateRanges(poly.vertex_3) || updateRanges(poly.vertex_4)){
     sendRanges();
@@ -79,4 +80,11 @@ void Plot3D::sendRanges(){
   plot << "set xrange [" << min_x << ":" << max_x << "]\n";
   plot << "set yrange [" << min_y << ":" << max_y << "]\n";
   plot << "set zrange [" << min_z << ":" << max_z << "]\n";
+}
+
+std::string Plot3D::formatVertex(std::array<double, 3> vertex)
+{
+  std::ostringstream oss;
+  oss << vertex[0] << ", " << vertex[1] << ", " << vertex[2];
+  return oss.str();
 }

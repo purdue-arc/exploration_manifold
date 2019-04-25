@@ -1,5 +1,6 @@
 #include "gnuplot-iostream.h"
 #include <array>
+#include <string>
 
 class Plot3D{
 public:
@@ -28,6 +29,7 @@ private:
   void updatePlot();
   bool updateRanges(std::array<double, 3> vertex);
   void sendRanges();
+  std::string formatVertex(std::array<double, 3> vertex);
 
   Gnuplot plot;
   unsigned int numObjects;

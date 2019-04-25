@@ -82,7 +82,7 @@ add_executable(${PROJECT_NAME}_test ${${PROJECT_NAME}_SOURCES})
 target_link_libraries(${PROJECT_NAME}_test
   boost_system
   boost_iostreams
-  # lutil -lboost_iostreams -lboost_system -lboost_filesystem
+  boost_filesystem
   # ${catkin_LIBRARIES}
 )
 
