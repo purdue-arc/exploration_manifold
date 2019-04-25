@@ -2,6 +2,7 @@
 
 Plot3D::Plot3D()
 {
+  numObjects = 0;
   max_x = 10;
   max_y = 10;
   max_z = 10;
@@ -27,7 +28,6 @@ void Plot3D::addPolygon(Polygon poly){
   if( updateRanges(poly.v1) || updateRanges(poly.v2) || updateRanges(poly.v3) || updateRanges(poly.v4)){
     sendRanges();
   }
-  
   updatePlot();
 }
 
