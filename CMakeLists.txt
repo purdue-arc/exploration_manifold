@@ -10,7 +10,7 @@ add_compile_options(-std=c++11)
 find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -31,7 +31,7 @@ catkin_package(
  INCLUDE_DIRS include
 #  LIBRARIES exploration_manifold
 #  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS system_lib
+ # DEPENDS system_lib
 )
 
 ###########
@@ -62,6 +62,7 @@ set(${PROJECT_NAME}_SOURCES
     src/HalfEdge.cpp
     src/HalfEdgeIterator.cpp
     src/Map.cpp
+    src/Plot3D.cpp
     src/test.cpp
 )
 
@@ -78,9 +79,12 @@ add_executable(${PROJECT_NAME}_test ${${PROJECT_NAME}_SOURCES})
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(${PROJECT_NAME}_test
+  boost_system
+  boost_iostreams
+  # lutil -lboost_iostreams -lboost_system -lboost_filesystem
+  # ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

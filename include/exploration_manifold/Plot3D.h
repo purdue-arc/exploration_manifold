@@ -35,6 +35,6 @@ private:
   double max_y;
   double max_z;
   double min_x;
-  double min_x;
-  double min_x;
+  double min_y;
+  double min_z;
 };

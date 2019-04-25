@@ -14,18 +14,18 @@ Plot3D::Plot3D()
   updatePlot();
 }
 
-~Plot3D::Plot3D() = default;
+Plot3D::~Plot3D() = default;
 
 void Plot3D::addPolygon(Polygon poly){
   numObjects++;
   plot << "set object " << numObjects << " polygon from '-' to '-' to '-' to '-' to '-' fillsytle transparent solid 0.5\n";
-  gp.send1d(poly.v1);
-  gp.send1d(poly.v2);
-  gp.send1d(poly.v3);
-  gp.send1d(poly.v4);
-  gp.send1d(poly.v1);
+  plot.send1d(poly.vertex_1);
+  plot.send1d(poly.vertex_2);
+  plot.send1d(poly.vertex_3);
+  plot.send1d(poly.vertex_4);
+  plot.send1d(poly.vertex_1);
 
-  if( updateRanges(poly.v1) || updateRanges(poly.v2) || updateRanges(poly.v3) || updateRanges(poly.v4)){
+  if( updateRanges(poly.vertex_1) || updateRanges(poly.vertex_2) || updateRanges(poly.vertex_3) || updateRanges(poly.vertex_4)){
     sendRanges();
   }
   updatePlot();
@@ -42,34 +42,34 @@ void Plot3D::clearPlot(){
 
 bool Plot3D::updateRanges(std::array<double, 3> vertex){
   bool change = false;
-  if (vertex[0] > x_max)
+  if (vertex[0] > max_x)
   {
-    x_max = vertex[0];
+    max_x = vertex[0];
     change = true;
   }
-  else if (vertex[0] < x_min)
+  else if (vertex[0] < min_x)
   {
-    x_min = vertex[0];
+    min_x = vertex[0];
     change = true;
   }
-  if (vertex[1] > y_max)
+  if (vertex[1] > max_y)
   {
-    y_max = vertex[1];
+    max_y = vertex[1];
     change = true;
   }
-  else if (vertex[1] < y_min)
+  else if (vertex[1] < min_y)
   {
-    y_min = vertex[1];
+    min_y = vertex[1];
     change = true;
   }
-  if (vertex[2] > z_max)
+  if (vertex[2] > max_z)
   {
-    z_max = vertex[2];
+    max_z = vertex[2];
     change = true;
   }
-  else if (vertex[2] < z_min)
+  else if (vertex[2] < min_z)
   {
-    z_min = vertex[2];
+    min_z = vertex[2];
     change = true;
   }
   return change;
