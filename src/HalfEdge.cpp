@@ -1,25 +1,25 @@
 #include "exploration_manifold/HalfEdge.h"
 
 HalfEdge::HalfEdge(std::shared_ptr<Vertex> base, std::shared_ptr<Quad> parent, std::shared_ptr<HalfEdge> prev, std::shared_ptr<HalfEdge> twin, std::shared_ptr<HalfEdge> next){
-  baseVertex = base;
-  parentQuad = parent;
-  prevEdge = prev;
-  twinEdge = twin;
-  nextEdge = next;
+  baseVertex = std::shared_ptr<Vertex> (base);
+  parentQuad = std::shared_ptr<Quad> (parent);
+  prevEdge = std::shared_ptr<HalfEdge> (prev);
+  twinEdge = std::shared_ptr<HalfEdge> (twin);
+  nextEdge = std::shared_ptr<HalfEdge> (next);
 }
 
 HalfEdge::~HalfEdge() = default;
 
-HalfEdge & HalfEdge::next(){
-  return *nextEdge;
+std::shared_ptr<HalfEdge> HalfEdge::next(){
+  return std::shared_ptr<HalfEdge> (nextEdge);
 }
 
-HalfEdge & HalfEdge::previous(){
-  return *prevEdge;
+std::shared_ptr<HalfEdge> HalfEdge::previous(){
+  return std::shared_ptr<HalfEdge> (prevEdge);
 }
 
-HalfEdge & HalfEdge::twin(){
-  return *twinEdge;
+std::shared_ptr<HalfEdge> HalfEdge::twin(){
+  return std::shared_ptr<HalfEdge> (twinEdge);
 }
 
 void HalfEdge::setNext(std::shared_ptr<HalfEdge> next){
@@ -69,5 +69,5 @@ std::array<double, 3> HalfEdge::vector(){
 }
 
 HalfEdge::iterator HalfEdge::begin(){
-  return iterator(std::shared_ptr<HalfEdge> (this));
+  return iterator(this);
 }

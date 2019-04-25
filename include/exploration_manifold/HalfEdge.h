@@ -35,9 +35,9 @@ public:
   ~HalfEdge();
 
   // Accessor Methods
-  HalfEdge & next();
-  HalfEdge & previous();
-  HalfEdge & twin();
+  std::shared_ptr<HalfEdge> next();
+  std::shared_ptr<HalfEdge> previous();
+  std::shared_ptr<HalfEdge> twin();
 
   // Mutoator Methods
   void setNext(std::shared_ptr<HalfEdge> next);

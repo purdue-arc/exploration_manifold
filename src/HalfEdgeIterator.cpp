@@ -1,31 +1,32 @@
 //#include "exploration_manifold/HalfEdgeIterator.h"
 #include "exploration_manifold/HalfEdge.h"
 
-HalfEdgeIterator::HalfEdgeIterator(std::shared_ptr<HalfEdge> edge){
+HalfEdgeIterator::HalfEdgeIterator(HalfEdge * edge)
+{
   this->edge = edge;
 }
 
 HalfEdgeIterator::~HalfEdgeIterator() = default;
 
 HalfEdgeIterator & HalfEdgeIterator::operator++(){
-  edge = std::shared_ptr<HalfEdge> (&(edge->next()));
+  edge = edge->next().get();
   return *this;
 }
 
 HalfEdgeIterator HalfEdgeIterator::operator++(int){
   HalfEdgeIterator clone(edge);
-  edge = std::shared_ptr<HalfEdge> (&(edge->next()));
+  edge = edge->next().get();
   return clone;
 }
 
 HalfEdgeIterator & HalfEdgeIterator::operator--(){
-  edge = std::shared_ptr<HalfEdge> (&(edge->previous()));
+  edge = edge->previous().get();
   return *this;
 }
 
 HalfEdgeIterator HalfEdgeIterator::operator--(int){
   HalfEdgeIterator clone(edge);
-  edge = std::shared_ptr<HalfEdge> (&(edge->previous()));
+  edge = edge->previous().get();
   return clone;
 }
 
@@ -34,9 +35,9 @@ HalfEdge & HalfEdgeIterator::operator*(){
 }
 
 HalfEdge * HalfEdgeIterator::operator->(){
-  return edge.get();
+  return edge;
 }
 
 bool HalfEdgeIterator::operator!=(const HalfEdgeIterator & other){
-  return this->edge.get() != other.edge.get();
+  return this->edge != other.edge;
 }

@@ -1,5 +1,6 @@
 #include "exploration_manifold/Map.h"
 #include <math.h>
+#include <iostream>
 
 Map::Map(double v_x [3], double v_y [3])
 {
@@ -11,7 +12,7 @@ Map::Map(double v_x [3], double v_y [3])
   std::shared_ptr<HalfEdge::Quad> quad (new HalfEdge::Quad(normalAngle_rad, 0.0, 1.0));
 
   originEdge = std::shared_ptr<HalfEdge> (new HalfEdge(originVertex, quad, nullptr, nullptr, nullptr));
-  activeEdge = originEdge;
+  activeEdge = std::shared_ptr<HalfEdge> (originEdge);
 
   // for(int8_t x_dir = -1; x_dir < 2; x_dir += 2)
   // {
@@ -27,13 +28,16 @@ Map::Map(double v_x [3], double v_y [3])
       activeEdge = std::shared_ptr<HalfEdge> (new HalfEdge(pt3, quad, activeEdge, nullptr, nullptr));
 
       // Make a complete backwards link
-      (activeEdge->previous().previous().previous()).setPrevious(activeEdge);
+      (activeEdge->previous()->previous()->previous())->setPrevious(activeEdge);
+
+      std::cout << "Breakpoint 1" << std::endl;
 
       // Link them forwards
       HalfEdge::iterator itr = activeEdge->begin();
       do {
-        itr->setNext(std::shared_ptr<HalfEdge> (&(itr->previous().previous().previous())));
+        itr->setNext(itr->previous()->previous()->previous());
         --itr;
+        std::cout << "Breakpoint loop" << std::endl;
       } while(itr != activeEdge->begin());
 
       // Create an active edge for the next loop to use

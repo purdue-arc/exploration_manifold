@@ -4,7 +4,7 @@ class HalfEdge;
 
 class HalfEdgeIterator {
 public:
-  HalfEdgeIterator(std::shared_ptr<HalfEdge> edge);
+  HalfEdgeIterator(HalfEdge * edge);
   ~HalfEdgeIterator();
 
   // Standard operations
@@ -17,5 +17,5 @@ public:
   bool operator!=(const HalfEdgeIterator & other);
 
 private:
-  std::shared_ptr<HalfEdge> edge;
+  HalfEdge * edge;
 };
