@@ -11,6 +11,8 @@ Plot3D::Plot3D()
   min_x = -10;
   min_x = -10;
 
+  plot << "set xyplane at 0\n";
+
   sendRanges();
   updatePlot();
 }
