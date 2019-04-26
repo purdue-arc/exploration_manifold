@@ -22,6 +22,18 @@ std::shared_ptr<HalfEdge> HalfEdge::twin(){
   return std::shared_ptr<HalfEdge> (twinEdge);
 }
 
+std::shared_ptr<HalfEdge::Quad> HalfEdge::parent(){
+  return std::shared_ptr<HalfEdge::Quad> (parentQuad);
+}
+
+std::array<double, 3> HalfEdge::vertexLocation(){
+  std::array<double, 3> location;
+  location[0] = baseVertex->position_x;
+  location[1] = baseVertex->position_y;
+  location[2] = baseVertex->position_z;
+  return location;
+}
+
 void HalfEdge::setNext(std::shared_ptr<HalfEdge> next){
   nextEdge = next;
 }

@@ -38,6 +38,8 @@ public:
   std::shared_ptr<HalfEdge> next();
   std::shared_ptr<HalfEdge> previous();
   std::shared_ptr<HalfEdge> twin();
+  std::shared_ptr<Quad> parent();
+
 
   // Mutoator Methods
   void setNext(std::shared_ptr<HalfEdge> next);
@@ -48,11 +50,14 @@ public:
   double parentNormalAngle();
   double parentVariance();
   double parentCertainty();
+  std::array<double, 3> parentNormal();
+
+  // Child Accessor Methods
+  std::array<double, 3> vertexLocation();
+  std::array<double, 3> vector();
 
   // Other
   bool hasTwin();
-  std::array<double, 3> parentNormal();
-  std::array<double, 3> vector();
   iterator begin();
 
 private:
