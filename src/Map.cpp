@@ -16,35 +16,46 @@ Map::Map(double v_x [3], double v_y [3])
   originEdge = std::shared_ptr<HalfEdge> (new HalfEdge(originVertex, quad, nullptr, nullptr, nullptr));
   activeEdge = std::shared_ptr<HalfEdge> (originEdge);
 
-  // for(int8_t x_dir = -1; x_dir < 2; x_dir += 2)
-  // {
-  //   for(int8_t y_dir = -1; y_dir < 2; y_dir += 2)
-  //   {
-      std::shared_ptr<HalfEdge::Vertex> pt1 (new HalfEdge::Vertex(v_x[0], v_x[1], v_x[2]));
-      std::shared_ptr<HalfEdge::Vertex> pt2 (new HalfEdge::Vertex(v_x[0], v_y[1], v_x[2] + v_y[2]));
-      std::shared_ptr<HalfEdge::Vertex> pt3 (new HalfEdge::Vertex(v_y[0], v_y[1], v_y[2]));
+  int quadrant_x_dir [4] = {1, -1, -1, 1};
+  int quadrant_y_dir [4] = {1, 1, -1, -1};
 
-      // loop around the quad, keeping a link to the last one.
-      activeEdge = std::shared_ptr<HalfEdge> (new HalfEdge(pt1, quad, activeEdge, nullptr, nullptr));
-      activeEdge = std::shared_ptr<HalfEdge> (new HalfEdge(pt2, quad, activeEdge, nullptr, nullptr));
-      activeEdge = std::shared_ptr<HalfEdge> (new HalfEdge(pt3, quad, activeEdge, nullptr, nullptr));
+  for(size_t quadrant = 0; quadrant < 4; ++quadrant) {
+    // Set the quadrant variables
+    int x_dir = quadrant_x_dir[quadrant];
+    int y_dir = quadrant_y_dir[quadrant];
 
-      // Make a complete backwards link
-      (activeEdge->previous()->previous()->previous())->setPrevious(activeEdge);
+    // Make the edges
+    std::shared_ptr<HalfEdge::Vertex> pt1 (new HalfEdge::Vertex(x_dir*v_x[0], x_dir*v_x[1], x_dir*v_x[2]));
+    std::shared_ptr<HalfEdge::Vertex> pt2 (new HalfEdge::Vertex(x_dir*v_x[0], y_dir*v_y[1], x_dir*v_x[2] + y_dir*v_y[2]));
+    std::shared_ptr<HalfEdge::Vertex> pt3 (new HalfEdge::Vertex(y_dir*v_y[0], y_dir*v_y[1], y_dir*v_y[2]));
 
-      std::cout << "Breakpoint 1" << std::endl;
+    // loop around the quad, keeping a link to the last one.
+    activeEdge = std::shared_ptr<HalfEdge> (new HalfEdge(pt1, quad, activeEdge, nullptr, nullptr));
+    activeEdge = std::shared_ptr<HalfEdge> (new HalfEdge(pt2, quad, activeEdge, nullptr, nullptr));
+    activeEdge = std::shared_ptr<HalfEdge> (new HalfEdge(pt3, quad, activeEdge, nullptr, nullptr));
 
-      // Link them forwards
-      HalfEdge::iterator itr = activeEdge->begin();
-      do {
-        itr->setNext(itr->previous()->previous()->previous());
-        --itr;
-        std::cout << "Breakpoint loop" << std::endl;
-      } while(itr != activeEdge->begin());
+    // Make a complete backwards link
+    (activeEdge->previous()->previous()->previous())->setPrevious(activeEdge);
 
-      // Create an active edge for the next loop to use
-  //   }
-  // }
+    std::cout << "Creating Geometry (" << quadrant << ")" << std::endl;
+
+    // Link them forwards
+    HalfEdge::iterator itr = activeEdge->begin();
+    do {
+      itr->setNext(itr->previous()->previous()->previous());
+      --itr;
+      std::cout << "Forward linking" << std::endl;
+    } while(itr != activeEdge->begin());
+
+    if (quadrant < 3) {
+      // Create new geometry for the next iteration
+      std::cout << "Twin Linking" << std::endl;
+      quad = std::shared_ptr<HalfEdge::Quad> (new HalfEdge::Quad(normalAngle_rad, 0.0, 1.0));
+      std::shared_ptr<HalfEdge> newEdge (new HalfEdge(originVertex, quad, nullptr, activeEdge, nullptr));
+      activeEdge->setTwin(newEdge);
+      activeEdge =  std::shared_ptr<HalfEdge> (newEdge);
+    }
+  }
 }
 
 Map::~Map() = default;
@@ -65,6 +76,7 @@ std::vector<std::array<std::array<double, 3>, 4>> Map::exportGeometry(){
 
   while(!edgeQueue.empty())
   {
+    std::cout << "Traveling geometry" << std::endl;
     HalfEdge * currentEdge = edgeQueue.front();
     edgeQueue.pop();
 

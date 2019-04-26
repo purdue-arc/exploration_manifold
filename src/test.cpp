@@ -23,5 +23,6 @@ int main(){
   // keep it running so the gnuplot is responsive
   std::cout << "waiting" << std::endl;
   std::cin.get();
+  plot.closePlot();
   return 0;
 }
