@@ -1,32 +1,33 @@
 #include "exploration_manifold/HalfEdge.h"
 
-HalfEdge::HalfEdge(std::shared_ptr<Vertex> base, std::shared_ptr<Quad> parent, std::shared_ptr<HalfEdge> prev, std::shared_ptr<HalfEdge> twin, std::shared_ptr<HalfEdge> next){
-  baseVertex = std::shared_ptr<Vertex> (base);
-  parentQuad = std::shared_ptr<Quad> (parent);
-  prevEdge = std::shared_ptr<HalfEdge> (prev);
-  twinEdge = std::shared_ptr<HalfEdge> (twin);
-  nextEdge = std::shared_ptr<HalfEdge> (next);
+HalfEdge::HalfEdge(Vertex* base, Quad* parent, HalfEdge* prev, HalfEdge* twin, HalfEdge* next) {
+  baseVertex = base;
+  parentQuad = parent;
+  prevEdge = prev;
+  twinEdge = twin;
+  nextEdge = next;
 }
 
 HalfEdge::~HalfEdge() = default;
 
-std::shared_ptr<HalfEdge> HalfEdge::next(){
-  return std::shared_ptr<HalfEdge> (nextEdge);
+// Accessors
+HalfEdge* HalfEdge::next() {
+  return nextEdge;
 }
 
-std::shared_ptr<HalfEdge> HalfEdge::previous(){
-  return std::shared_ptr<HalfEdge> (prevEdge);
+HalfEdge* HalfEdge::previous() {
+  return prevEdge;
 }
 
-std::shared_ptr<HalfEdge> HalfEdge::twin(){
-  return std::shared_ptr<HalfEdge> (twinEdge);
+HalfEdge* HalfEdge::twin() {
+  return twinEdge;
 }
 
-std::shared_ptr<HalfEdge::Quad> HalfEdge::parent(){
-  return std::shared_ptr<HalfEdge::Quad> (parentQuad);
+HalfEdge::Quad* HalfEdge::parent() {
+  return parentQuad;
 }
 
-std::array<double, 3> HalfEdge::vertexLocation(){
+std::array<double, 3> HalfEdge::vertexLocation() {
   std::array<double, 3> location;
   location[0] = baseVertex->position_x;
   location[1] = baseVertex->position_y;
@@ -34,35 +35,35 @@ std::array<double, 3> HalfEdge::vertexLocation(){
   return location;
 }
 
-void HalfEdge::setNext(std::shared_ptr<HalfEdge> next){
+void HalfEdge::setNext(HalfEdge* next) {
   nextEdge = next;
 }
 
-void HalfEdge::setPrevious(std::shared_ptr<HalfEdge> prev){
+void HalfEdge::setPrevious(HalfEdge* prev) {
   prevEdge = prev;
 }
 
-void HalfEdge::setTwin(std::shared_ptr<HalfEdge> twin){
+void HalfEdge::setTwin(HalfEdge* twin) {
   twinEdge = twin;
 }
 
-double HalfEdge::parentNormalAngle(){
+double HalfEdge::parentNormalAngle() {
   return parentQuad->normalAngle_rad;
 }
 
-double HalfEdge::parentVariance(){
+double HalfEdge::parentVariance() {
   return parentQuad->variance;
 }
 
-double HalfEdge::parentCertainty(){
+double HalfEdge::parentCertainty() {
   return parentQuad->certainty;
 }
 
-bool HalfEdge::hasTwin(){
-  return bool(twinEdge);
+bool HalfEdge::hasTwin() {
+  return twinEdge != nullptr;
 }
 
-std::array<double, 3> HalfEdge::parentNormal(){
+std::array<double, 3> HalfEdge::parentNormal() {
   const std::array<double, 3> & vector1 = this->vector();
   const std::array<double, 3> & vector2 = nextEdge->vector();
   std::array<double, 3> normalVector;
@@ -72,7 +73,7 @@ std::array<double, 3> HalfEdge::parentNormal(){
   return normalVector;
 }
 
-std::array<double, 3> HalfEdge::vector(){
+std::array<double, 3> HalfEdge::vector() {
   std::array<double, 3> edgeVector;
   edgeVector[0] = nextEdge->baseVertex->position_x - baseVertex->position_x;
   edgeVector[1] = nextEdge->baseVertex->position_y - baseVertex->position_y;
@@ -80,6 +81,6 @@ std::array<double, 3> HalfEdge::vector(){
   return edgeVector;
 }
 
-HalfEdge::iterator HalfEdge::begin(){
+HalfEdge::iterator HalfEdge::begin() {
   return iterator(this);
 }

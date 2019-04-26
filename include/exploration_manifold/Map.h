@@ -1,5 +1,4 @@
 #include "exploration_manifold/HalfEdge.h"
-#include <memory>
 #include <vector>
 #include <array>
 
@@ -16,7 +15,7 @@ public:
 private:
   // Current half edges
   // fronteirs?
-  std::shared_ptr<HalfEdge> originEdge;
-  std::shared_ptr<HalfEdge> activeEdge;
+  HalfEdge* originEdge;
+  HalfEdge* activeEdge;
   unsigned int numQuads;
 };

@@ -9,24 +9,24 @@ HalfEdgeIterator::HalfEdgeIterator(HalfEdge * edge)
 HalfEdgeIterator::~HalfEdgeIterator() = default;
 
 HalfEdgeIterator & HalfEdgeIterator::operator++(){
-  edge = edge->next().get();
+  edge = edge->next();
   return *this;
 }
 
 HalfEdgeIterator HalfEdgeIterator::operator++(int){
   HalfEdgeIterator clone(edge);
-  edge = edge->next().get();
+  edge = edge->next();
   return clone;
 }
 
 HalfEdgeIterator & HalfEdgeIterator::operator--(){
-  edge = edge->previous().get();
+  edge = edge->previous();
   return *this;
 }
 
 HalfEdgeIterator HalfEdgeIterator::operator--(int){
   HalfEdgeIterator clone(edge);
-  edge = edge->previous().get();
+  edge = edge->previous();
   return clone;
 }
 

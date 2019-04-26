@@ -1,6 +1,5 @@
 #include "exploration_manifold/HalfEdgeIterator.h"
 #include <array>
-#include <memory>
 
 class HalfEdge{
 public:
@@ -31,20 +30,20 @@ public:
   };
 
   typedef HalfEdgeIterator iterator;
-  HalfEdge(std::shared_ptr<Vertex> base, std::shared_ptr<Quad> parent, std::shared_ptr<HalfEdge> prev, std::shared_ptr<HalfEdge> twin, std::shared_ptr<HalfEdge> next);
+  HalfEdge(Vertex* base, Quad* parent, HalfEdge* prev, HalfEdge* twin, HalfEdge* next);
   ~HalfEdge();
 
   // Accessor Methods
-  std::shared_ptr<HalfEdge> next();
-  std::shared_ptr<HalfEdge> previous();
-  std::shared_ptr<HalfEdge> twin();
-  std::shared_ptr<Quad> parent();
+  HalfEdge* next();
+  HalfEdge* previous();
+  HalfEdge* twin();
+  Quad* parent();
 
 
-  // Mutoator Methods
-  void setNext(std::shared_ptr<HalfEdge> next);
-  void setPrevious(std::shared_ptr<HalfEdge> prev);
-  void setTwin(std::shared_ptr<HalfEdge> twin);
+  // Mutator Methods
+  void setNext(HalfEdge* next);
+  void setPrevious(HalfEdge* prev);
+  void setTwin(HalfEdge* twin);
 
   // Parent Accessor Methods
   double parentNormalAngle();
@@ -61,10 +60,10 @@ public:
   iterator begin();
 
 private:
-  std::shared_ptr<Vertex> baseVertex;
-  std::shared_ptr<Quad> parentQuad;
+  Vertex* baseVertex;
+  Quad* parentQuad;
 
-  std::shared_ptr<HalfEdge> prevEdge;
-  std::shared_ptr<HalfEdge> twinEdge;
-  std::shared_ptr<HalfEdge> nextEdge;
+  HalfEdge* prevEdge;
+  HalfEdge* twinEdge;
+  HalfEdge* nextEdge;
 };
