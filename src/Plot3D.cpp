@@ -33,11 +33,11 @@ void Plot3D::addPolygon(Polygon poly){
 }
 
 void Plot3D::updatePlot(){
-  plot << "splot " << numObjects << "/0 notitle\n";
+  plot << "splot " << numObjects << "/0 notitle" << std::endl;
 }
 
 void Plot3D::clearPlot(){
-  plot << "clear\n";
+  plot << "clear" << std::endl;
   numObjects = 0;
 }
 
