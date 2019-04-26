@@ -58,6 +58,7 @@ public:
   // Other
   bool hasTwin();
   iterator begin();
+  iterator end();
 
 private:
   Vertex* baseVertex;

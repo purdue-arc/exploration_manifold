@@ -84,3 +84,7 @@ std::array<double, 3> HalfEdge::vector() {
 HalfEdge::iterator HalfEdge::begin() {
   return iterator(this);
 }
+
+HalfEdge::iterator HalfEdge::end() {
+  return iterator(this->previous());
+}
