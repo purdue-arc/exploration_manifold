@@ -55,6 +55,11 @@ Map::Map(double v_x [3], double v_y [3])
       activeEdge->setTwin(newEdge);
       activeEdge =  std::shared_ptr<HalfEdge> (newEdge);
     }
+    else {
+      // no new geometry, but link back to original
+      activeEdge->setTwin(std::shared_ptr<HalfEdge> (originEdge));
+      originEdge->setTwin(std::shared_ptr<HalfEdge> (activeEdge));
+    }
   }
 }
 
@@ -76,7 +81,7 @@ std::vector<std::array<std::array<double, 3>, 4>> Map::exportGeometry(){
 
   while(!edgeQueue.empty())
   {
-    std::cout << "Traveling geometry" << std::endl;
+    std::cout << "Traveling geometry. Size: " << edgeQueue.size() << std::endl;
     HalfEdge * currentEdge = edgeQueue.front();
     edgeQueue.pop();
 
@@ -90,8 +95,9 @@ std::vector<std::array<std::array<double, 3>, 4>> Map::exportGeometry(){
       // Check if we have visited the twin
       if(currentEdge->hasTwin())
       {
+        std::cout << "found twin" << std::endl;
         HalfEdge * currentTwin = currentEdge->twin().get();
-        if(visitedQuads.find(currentTwin->parent().get()) != visitedQuads.end())
+        if(visitedQuads.find(currentTwin->parent().get()) == visitedQuads.end())
         {
           // This quad has not been visited
           visitedQuads.insert(currentTwin->parent().get());
