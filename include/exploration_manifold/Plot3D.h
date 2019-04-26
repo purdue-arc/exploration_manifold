@@ -24,6 +24,7 @@ public:
 
   void addPolygon(Polygon poly);
   void clearPlot();
+  void closePlot();
 
 private:
   void updatePlot();

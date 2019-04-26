@@ -43,6 +43,10 @@ void Plot3D::clearPlot(){
   numObjects = 0;
 }
 
+void Plot3D::closePlot(){
+  plot << "quit" << std::endl;
+}
+
 bool Plot3D::updateRanges(std::array<double, 3> vertex){
   bool change = false;
   if (vertex[0] > max_x)
